@@ -47,6 +47,7 @@ def login(username_field, password_field, submit_field):
 
     submit_button = browser.find_element(By.NAME, submit_field)
     submit_button.click()
+    # todo rewrite submit button to search by type field
 
     time.sleep(2)
 
@@ -58,18 +59,23 @@ for url in urls:
 
     if 'erp' in url:
         login('userid', 'pwd', 'Submit')
+        # todo enter type value
+
+    elif 'eforms' in url:
+        login('DFS__UserID', 'DFS__Password', '')
+        # todo enter type value
 
     elif 'edw' in url:
-        login()
-        # todo find html name values
+        login('CAMUsername', 'CAMPassword', '')
+        # todo write custom search for submit button
 
     elif 'files' in url:
-        login()
-        # todo find html name values
+        login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword', '')
+        # todo enter type value
 
     elif 'transintranet' in url:
-        login()
-        # todo find html name values
+        login('UserName', 'Password', )
+        # todo enter type value
 
     else:
         next()
