@@ -1,8 +1,8 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
 
 # urls for critical appchecks
 urls = ['https://docs.google.com/spreadsheets/d/1mEhLZnwmX0VacWxECbEFmNLuXVizO05C1lu9e5mZ-Vs/edit#gid=637365405',
@@ -38,16 +38,16 @@ browser = webdriver.Chrome()
 
 
 # takes in the html field names and logs in
-def login(username_field, password_field, submit_field):
+def login(username_field, password_field):
     username = browser.find_element(By.NAME, username_field)
     username.send_keys(usernamestr)
 
     password = browser.find_element(By.NAME, password_field)
     password.send_keys(passwordstr)
 
-    submit_button = browser.find_element(By.NAME, submit_field)
+    submit_button = browser.find_element(By.XPATH, "//input[@type='submit']")
     submit_button.click()
-    # todo rewrite submit button to search by type field
+    # todo create logic to handle when type doesnt equal submit or have to get submit key by other means
 
     time.sleep(2)
 
@@ -56,26 +56,5 @@ def login(username_field, password_field, submit_field):
 for url in urls:
     browser.get(url)
     time.sleep(15)
-
-    if 'erp' in url:
-        login('userid', 'pwd', 'Submit')
-        # todo enter type value
-
-    elif 'eforms' in url:
-        login('DFS__UserID', 'DFS__Password', '')
-        # todo enter type value
-
-    elif 'edw' in url:
-        login('CAMUsername', 'CAMPassword', '')
-        # todo write custom search for submit button
-
-    elif 'files' in url:
-        login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword', '')
-        # todo enter type value
-
-    elif 'transintranet' in url:
-        login('UserName', 'Password', )
-        # todo enter type value
-
-    else:
-        next()
+    # todo implement web scraping capabilities with beautiful soup to feed to login function
+    # todo Or manual web scraping each webpage for key html
