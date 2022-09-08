@@ -61,7 +61,7 @@ for url in urls:
         login('Username', 'Password', 'submit')
 
     if 'erp' in url:
-        login('userid', 'pwd', 'Submit')
+        login('userid', 'pwd', 'submit')
         # todo enter type value
 
     elif 'eforms' in url:
