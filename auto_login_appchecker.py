@@ -38,14 +38,14 @@ browser = webdriver.Chrome()
 
 
 # takes in the html field names and logs in
-def login(username_field, password_field):
+def login(username_field, password_field, submit_field):
     username = browser.find_element(By.NAME, username_field)
     username.send_keys(usernamestr)
 
     password = browser.find_element(By.NAME, password_field)
     password.send_keys(passwordstr)
 
-    submit_button = browser.find_element(By.XPATH, "//input[@type='submit']")
+    submit_button = browser.find_element(By.XPATH, f"//input[@type='{submit_field}']")
     submit_button.click()
     # todo create logic to handle when type doesnt equal submit or have to get submit key by other means
 
@@ -56,5 +56,29 @@ def login(username_field, password_field):
 for url in urls:
     browser.get(url)
     time.sleep(15)
-    # todo implement web scraping capabilities with beautiful soup to feed to login function
-    # todo Or manual web scraping each webpage for key html
+
+    if 'mysdpbc' in url:
+        login('Username', 'Password', 'submit')
+
+    if 'erp' in url:
+        login('userid', 'pwd', 'Submit')
+        # todo enter type value
+
+    elif 'eforms' in url:
+        login('DFS__UserID', 'DFS__Password', '')
+        # todo enter type value
+
+    elif 'edw' in url:
+        login('CAMUsername', 'CAMPassword', '')
+        # todo enter type value
+
+    elif 'files' in url:
+        login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword', '')
+        # todo enter type value
+
+    elif 'transintranet' in url:
+        login('UserName', 'Password', '')
+        # todo enter type value
+
+    else:
+        continue
