@@ -37,8 +37,14 @@ passwordstr = input('Please input your password, use correct capitalization: ') 
 browser = webdriver.Chrome()
 
 
-# takes in the html field names and logs in
 def login(username_field, password_field, submit_field):
+    """
+    takes the following arguments and logs into the webpage
+    :param username_field: html name field of username box
+    :param password_field: html name field of password box
+    :param submit_field: html type field for the submit button
+    :return:
+    """
     username = browser.find_element(By.NAME, username_field)
     username.send_keys(usernamestr)
 
@@ -47,38 +53,35 @@ def login(username_field, password_field, submit_field):
 
     submit_button = browser.find_element(By.XPATH, f"//input[@type='{submit_field}']")
     submit_button.click()
-    # todo create logic to handle when type doesnt equal submit or have to get submit key by other means
 
-    time.sleep(2)
+    time.sleep(5)
 
 
 # open urls and login if necessary
+# todo write code to log into webquest webpage takes additional verification.
+# todo write button press for bulletins logon
 for url in urls:
     browser.get(url)
-    time.sleep(15)
+    time.sleep(8)
 
     if 'mysdpbc' in url:
         login('Username', 'Password', 'submit')
 
     if 'erp' in url:
         login('userid', 'pwd', 'submit')
-        # todo enter type value
 
     elif 'eforms' in url:
-        login('DFS__UserID', 'DFS__Password', '')
-        # todo enter type value
+        login('DFS__UserID', 'DFS__Password', 'submit')
 
     elif 'edw' in url:
-        login('CAMUsername', 'CAMPassword', '')
-        # todo enter type value
+        login('CAMUsername', 'CAMPassword', 'button')
+        # todo write specific log in since xpath varies from other urls
 
     elif 'files' in url:
-        login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword', '')
-        # todo enter type value
+        login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword', 'submit')
 
     elif 'transintranet' in url:
-        login('UserName', 'Password', '')
-        # todo enter type value
+        login('UserName', 'Password', 'submit')
 
     else:
         continue
