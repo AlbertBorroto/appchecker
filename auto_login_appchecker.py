@@ -1,12 +1,9 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
 
 # urls for critical appchecks
-urls = ['https://docs.google.com/spreadsheets/d/1mEhLZnwmX0VacWxECbEFmNLuXVizO05C1lu9e5mZ-Vs/edit#gid=637365405',
-        'https://mysdpbc.org/',
+urls = ['https://mysdpbc.org/',
         'https://www.palmbeachschools.org/',
         'https://hub.palmbeachschools.org/',
         'https://connected.palmbeachschools.org/simplesaml/launch.php?Source=enboard&Application=sisprod',
@@ -31,10 +28,11 @@ urls = ['https://docs.google.com/spreadsheets/d/1mEhLZnwmX0VacWxECbEFmNLuXVizO05
 
 # take user's password and username
 usernamestr = input('Please input your username: ')
-passwordstr = input('Please input your password, use correct capitalization: ')  # todo obfuscate entry field
+passwordstr = input('Please input your password: ')
 
-# webdriver to control chrome
+# create webdriver object to control chrome
 browser = webdriver.Chrome()
+browser.get('https://www.google.com/')
 
 
 def login(username_field, password_field, submit_field):
@@ -43,7 +41,6 @@ def login(username_field, password_field, submit_field):
     :param username_field: html name field of username box
     :param password_field: html name field of password box
     :param submit_field: html type field for the submit button
-    :return:
     """
     username = browser.find_element(By.NAME, username_field)
     username.send_keys(usernamestr)
@@ -60,9 +57,13 @@ def login(username_field, password_field, submit_field):
 # open urls and login if necessary
 # todo write code to log into webquest webpage takes additional verification.
 # todo write button press for bulletins logon
+i = 0
 for url in urls:
+    i += 1
+    browser.execute_script("window.open('');")
+    browser.switch_to.window(browser.window_handles[i])
     browser.get(url)
-    time.sleep(8)
+    time.sleep(5)
 
     if 'mysdpbc' in url:
         login('Username', 'Password', 'submit')
@@ -73,9 +74,16 @@ for url in urls:
     elif 'eforms' in url:
         login('DFS__UserID', 'DFS__Password', 'submit')
 
+    # specific log in since xpath varies from other urls
     elif 'edw' in url:
-        login('CAMUsername', 'CAMPassword', 'button')
-        # todo write specific log in since xpath varies from other urls
+        username = browser.find_element(By.NAME, 'CAMUsername')
+        username.send_keys(usernamestr)
+
+        password = browser.find_element(By.NAME, 'CAMPassword')
+        password.send_keys(passwordstr)
+
+        submit_button = browser.find_element(By.XPATH, "//button[@type='button']")
+        submit_button.click()
 
     elif 'files' in url:
         login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword', 'submit')
@@ -85,3 +93,4 @@ for url in urls:
 
     else:
         continue
+
