@@ -1,6 +1,8 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 # urls for critical appchecks
 urls = ['https://mysdpbc.org/',
@@ -94,3 +96,10 @@ for url in urls:
     else:
         continue
 
+#updateruns = input("Would you like to run the Chrome update check? (y/n): ")
+#for updaterun in updateruns:
+        #    if "y" in updaterun:
+        #driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+
+    #if "n" in updaterun:
+#      continue
