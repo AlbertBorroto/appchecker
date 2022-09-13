@@ -1,3 +1,5 @@
 # appchecker
-Currently opens all URLs that have to be checked as part of shift duties <br />
-More automation to be done for it to completely replace what is currently in use <br />
+manual_appchecker will open all pages that need to be checked still needs logon when accessing specific URLs</br>
+</br>auto_login_appchecker works similar to current appchecker needs some extra login steps
+<br></br>
+Need to research how to auto update chromedriver.exe
