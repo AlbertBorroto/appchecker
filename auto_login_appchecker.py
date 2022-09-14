@@ -49,7 +49,7 @@ def login(username_field, password_field):
     password.send_keys(passwordstr)
 
 
-# open urls and login if necessary
+# open urls in new tabs and login if necessary
 # todo write code to log into webquest webpage takes additional verification.
 # todo write button press for bulletins logon
 for url in urls:
