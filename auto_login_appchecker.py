@@ -37,12 +37,11 @@ browser = webdriver.Chrome()
 browser.get('https://www.google.com/')
 
 
-def login(username_field, password_field, submit_field):
+def login(username_field, password_field):
     """
-    takes the following arguments and logs into the webpage
+    takes the following arguments and populates username and password into the webpage
     :param username_field: html name field of username box
     :param password_field: html name field of password box
-    :param submit_field: html type field for the submit button
     """
     username = browser.find_element(By.NAME, username_field)
     username.send_keys(usernamestr)
@@ -50,48 +49,45 @@ def login(username_field, password_field, submit_field):
     password = browser.find_element(By.NAME, password_field)
     password.send_keys(passwordstr)
 
-    submit_button = browser.find_element(By.XPATH, f"//input[@type='{submit_field}']")
-    submit_button.click()
-
-    time.sleep(5)
+    time.sleep(6)
 
 
 # open urls and login if necessary
 # todo write code to log into webquest webpage takes additional verification.
 # todo write button press for bulletins logon
-i = 0
 for url in urls:
-    i += 1
-    browser.execute_script("window.open('');")
-    browser.switch_to.window(browser.window_handles[i])
     browser.get(url)
-    time.sleep(5)
+    time.sleep(6)
 
     if 'mysdpbc' in url:
-        login('Username', 'Password', 'submit')
+        login('Username', 'Password')
+        submit_button = browser.find_element(By.ID, 'login-button')
+        submit_button.click()
 
     if 'erp' in url:
-        login('userid', 'pwd', 'submit')
+        login('userid', 'pwd')
+        submit_button = browser.find_element(By.NAME, 'Submit')
+        submit_button.click()
 
     elif 'eforms' in url:
-        login('DFS__UserID', 'DFS__Password', 'submit')
+        login('DFS__UserID', 'DFS__Password')
+        submit_button = browser.find_element(By.NAME, "//input[@type='submit']")
+        submit_button.click()
 
-    # specific log in since xpath varies from other urls
     elif 'edw' in url:
-        username = browser.find_element(By.NAME, 'CAMUsername')
-        username.send_keys(usernamestr)
-
-        password = browser.find_element(By.NAME, 'CAMPassword')
-        password.send_keys(passwordstr)
-
+        login('CAMUsername', 'CAMPassword')
         submit_button = browser.find_element(By.XPATH, "//button[@type='button']")
         submit_button.click()
 
     elif 'files' in url:
-        login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword', 'submit')
+        login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword')
+        submit_button = browser.find_element(By.NAME, 'ct100$body$ButtonLogin')
+        submit_button.click()
 
     elif 'transintranet' in url:
-        login('UserName', 'Password', 'submit')
+        login('Username', 'Password')
+        submit_button = browser.find_element(By.NAME, 'LoginButton')
+        submit_button.click()
 
     else:
         continue
