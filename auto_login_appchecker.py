@@ -34,7 +34,6 @@ passwordstr = input('Please input your password: ')
 
 # create webdriver object to control chrome
 browser = webdriver.Chrome()
-browser.get('https://www.google.com/')
 
 
 def login(username_field, password_field):
@@ -49,45 +48,50 @@ def login(username_field, password_field):
     password = browser.find_element(By.NAME, password_field)
     password.send_keys(passwordstr)
 
-    time.sleep(6)
-
 
 # open urls and login if necessary
 # todo write code to log into webquest webpage takes additional verification.
 # todo write button press for bulletins logon
 for url in urls:
-    browser.get(url)
+    browser.execute_script(f"window.open('{url}')")
+    browser.switch_to.window(browser.window_handles[-1])
     time.sleep(6)
 
     if 'mysdpbc' in url:
         login('Username', 'Password')
         submit_button = browser.find_element(By.ID, 'login-button')
         submit_button.click()
+        time.sleep(6)
 
     if 'erp' in url:
         login('userid', 'pwd')
         submit_button = browser.find_element(By.NAME, 'Submit')
         submit_button.click()
+        time.sleep(6)
 
     elif 'eforms' in url:
         login('DFS__UserID', 'DFS__Password')
-        submit_button = browser.find_element(By.NAME, "//input[@type='submit']")
+        submit_button = browser.find_element(By.XPATH, "//input[@type='submit']")
         submit_button.click()
+        time.sleep(6)
 
     elif 'edw' in url:
         login('CAMUsername', 'CAMPassword')
         submit_button = browser.find_element(By.XPATH, "//button[@type='button']")
         submit_button.click()
+        time.sleep(6)
 
     elif 'files' in url:
         login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword')
         submit_button = browser.find_element(By.NAME, 'ct100$body$ButtonLogin')
         submit_button.click()
+        time.sleep(6)
 
     elif 'transintranet' in url:
         login('Username', 'Password')
         submit_button = browser.find_element(By.NAME, 'LoginButton')
         submit_button.click()
+        time.sleep(6)
 
     else:
         continue
