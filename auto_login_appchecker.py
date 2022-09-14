@@ -49,7 +49,7 @@ def login(username_field, password_field):
     password.send_keys(passwordstr)
 
 
-# open urls in new tabs and login if necessary
+# open urls in new tabs, sends login credentials, and presses submit button
 # todo write code to log into webquest webpage takes additional verification.
 # todo write button press for bulletins logon
 for url in urls:
@@ -96,6 +96,9 @@ for url in urls:
     else:
         continue
 
+# todo need to add chrome version checker
+# todo add chromedriver reactive to variable install
+# todo timeout choice in 15 seconds when no input
 #updateruns = input("Would you like to run the Chrome update check? (y/n): ")
 #for updaterun in updateruns:
         #    if "y" in updaterun:
