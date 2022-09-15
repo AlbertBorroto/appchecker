@@ -30,7 +30,7 @@ urls = ['https://mysdpbc.org/',
 
 # take user's password and username
 usernamestr = input('Please input your username: ')
-passwordstr = input('Please input your password: ')
+passwordstr = input('Please input password: ')
 
 # create webdriver object to control chrome
 browser = webdriver.Chrome()
@@ -50,8 +50,7 @@ def login(username_field, password_field):
 
 
 # open urls in new tabs, sends login credentials, and presses submit button
-# todo write code to log into webquest webpage takes additional verification.
-# todo write button press for bulletins logon
+# todo write code to log into webquest webpage takes additional verification
 for url in urls:
     browser.execute_script(f"window.open('{url}')")
     browser.switch_to.window(browser.window_handles[-1])
@@ -63,7 +62,7 @@ for url in urls:
         submit_button.click()
         time.sleep(6)
 
-    if 'erp' in url:
+    elif 'erp' in url:
         login('userid', 'pwd')
         submit_button = browser.find_element(By.NAME, 'Submit')
         submit_button.click()
@@ -83,12 +82,12 @@ for url in urls:
 
     elif 'files' in url:
         login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword')
-        submit_button = browser.find_element(By.NAME, 'ct100$body$ButtonLogin')
+        submit_button = browser.find_element(By.NAME, 'ctl00$body$ButtonLogin')
         submit_button.click()
         time.sleep(6)
 
     elif 'transintranet' in url:
-        login('Username', 'Password')
+        login('UserName', 'Password')
         submit_button = browser.find_element(By.NAME, 'LoginButton')
         submit_button.click()
         time.sleep(6)
