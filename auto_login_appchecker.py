@@ -4,6 +4,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
+# take user's password and username
+usernamestr = input('Please input your username: ')
+emailstr = input('Please input firstname.lastname: ')
+passwordstr = input('Please input password: ')
+emailstr += '@palmbeachschools.org'
+
 # urls for critical appchecks
 urls = ['https://mysdpbc.org/',
         'https://www.palmbeachschools.org/',
@@ -15,7 +21,7 @@ urls = ['https://mysdpbc.org/',
         'https://webclock.palmbeach.k12.fl.us/',
         'https://eforms.palmbeachschools.org/portal/',
         'https://connected.palmbeachschools.org/simplesaml/launch.php?Source=enboard&Application=esupport',
-        'https://iq.palmbeachschools.org/WebIQ/search.aspx',
+        f'https://{usernamestr}:{passwordstr}@iq.palmbeachschools.org/WebIQ/search.aspx',
         'https://www2.palmbeachschools.org/directorysearch/indexportal.html',
         'https://connected.palmbeachschools.org/simplesaml/launch.php?Source=enboard&Application=bulletins',
         'https://go.boarddocs.com/fl/palmbeach/Board.nsf/Public',
@@ -27,10 +33,6 @@ urls = ['https://mysdpbc.org/',
         'https://transintranet.palmbeachschools.org/Default.aspx',
         'https://10.254.18.202/ui/#/login'
         ]
-
-# take user's password and username
-usernamestr = input('Please input your username: ')
-passwordstr = input('Please input password: ')
 
 # create webdriver object to control chrome
 browser = webdriver.Chrome()
@@ -54,43 +56,50 @@ def login(username_field, password_field):
 for url in urls:
     browser.execute_script(f"window.open('{url}')")
     browser.switch_to.window(browser.window_handles[-1])
-    time.sleep(6)
+    time.sleep(5)
 
     if 'mysdpbc' in url:
         login('Username', 'Password')
         submit_button = browser.find_element(By.ID, 'login-button')
         submit_button.click()
-        time.sleep(6)
+        time.sleep(5)
 
     elif 'erp' in url:
         login('userid', 'pwd')
         submit_button = browser.find_element(By.NAME, 'Submit')
         submit_button.click()
-        time.sleep(6)
+        time.sleep(5)
 
     elif 'eforms' in url:
         login('DFS__UserID', 'DFS__Password')
         submit_button = browser.find_element(By.XPATH, "//input[@type='submit']")
         submit_button.click()
-        time.sleep(6)
+        time.sleep(5)
 
     elif 'edw' in url:
         login('CAMUsername', 'CAMPassword')
         submit_button = browser.find_element(By.XPATH, "//button[@type='button']")
         submit_button.click()
-        time.sleep(6)
+        time.sleep(5)
 
     elif 'files' in url:
         login('ctl00$body$TextBoxUserID', 'ctl00$body$TextBoxPassword')
         submit_button = browser.find_element(By.NAME, 'ctl00$body$ButtonLogin')
         submit_button.click()
-        time.sleep(6)
+        time.sleep(5)
+
+    elif 'raptortech' in url:
+        email = browser.find_element(By.NAME, 'Username')
+        email.send_keys(emailstr)
+        submit_button = browser.find_element(By.XPATH,"//button[@class='btn btn-big btn-primary ladda-button']")
+        submit_button.click()
+        time.sleep(5)
 
     elif 'transintranet' in url:
         login('UserName', 'Password')
         submit_button = browser.find_element(By.NAME, 'LoginButton')
         submit_button.click()
-        time.sleep(6)
+        time.sleep(5)
 
     else:
         continue
